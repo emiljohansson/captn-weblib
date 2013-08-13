@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+	<title>Test for the Captn</title>
+	<script src="system/captn.js"></script>
+	<script src="util/json.js"></script>
+	<script src="event/event.js"></script>
+	<script src="net/ajax.js"></script>
+	<script>
+
+		function onComplete(data) { console.log("ajax success");}
+		function onFail(data) { console.log(data);}
+
+		function testAjax() {
+			captn.net.ajax
+				.get('event/event.js')
+				.complete(onComplete).
+				fail(onFail);
+			captn.net.ajax
+				.get('event/fel.js')
+				.complete(onComplete).
+				fail(onFail);
+			
+			var f = document.getElementById('test_form');
+			captn.net.ajax.handlePostForm(
+				f,
+				function(data) {
+					console.log("test form complete");
+				}
+			);
+			captn.event.trigger(f, captn.event.EventType.SUBMIT);
+		}
+
+		function testSubscribers() {
+			var ct = false;
+			var obj = {
+				a: function() {
+					console.assert(!ct, "on observer emitted once");
+					ct = true;
+					captn.off("TEST", this.a, this);
+				}
+			};
+			captn.on("TEST", obj.a, obj);
+			captn.emit("TEST");
+			captn.emit("TEST");
+		}
+
+		captn.event.addListener(window, captn.event.EventType.LOAD, function() {
+			testAjax();
+			testSubscribers();
+		});
+	</script>
+</head>
+<body>
+
+
+<form id="test_form" method="post" action="event/event.js">
+	<input type="submit">
+</form>
+
+</body>
+</html>
