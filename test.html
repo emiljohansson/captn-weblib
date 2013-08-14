@@ -3,9 +3,9 @@
 <head>
 	<title>Test for the Captn</title>
 	<script src="system/captn.js"></script>
-	<script src="util/json.js"></script>
 	<script src="event/event.js"></script>
 	<script src="net/ajax.js"></script>
+	<script src="util/json.js"></script>
 	<script>
 
 		function onComplete(data) { console.log("ajax success");}
@@ -45,10 +45,17 @@
 			captn.emit("TEST");
 		}
 
-		captn.event.addListener(window, captn.event.EventType.LOAD, function() {
+		/*captn.event.addListener(window, captn.event.EventType.LOAD, function() {
+			
+		});*/
+
+		function onLoad() {
+			console.log("loaded");
 			testAjax();
 			testSubscribers();
-		});
+		}
+
+		captn.ready(onLoad);
 	</script>
 </head>
 <body>

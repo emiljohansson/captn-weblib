@@ -9,10 +9,12 @@
  *	@version	0.1.1
  *	@since		2013-08-10
  */
-captn.util.calc = {
-	add: function(a, b) { return a + b; },
-	divide: function(a, b) { return a / b; },
-	multiply: function(a, b) { return a * b; },
-	subtract: function(a, b) { return a - b; },
-	percentage: function(a, b) { return (a / b) * 100; }
-};
+captn.define(function() {
+	captn.util.calc = {
+		add: function(a, b) { return a + b; },
+		divide: function(a, b) { return a / b; },
+		multiply: function(a, b) { return a * b; },
+		subtract: function(a, b) { return a - b; },
+		percentage: function(a, b) { return (a / b) * 100; }
+	};
+});

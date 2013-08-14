@@ -13,24 +13,19 @@ captn.define(function() {
 	//	Public namespace
 	//-----------------------------------------------------------
 
-	captn.util.json = {};
+	captn.util.number = {};
 
 	//-----------------------------------------------------------
 	//	Public static methods
 	//-----------------------------------------------------------
 
 	/**
-	 *	Parses a string to valid json data.
+	 *	Returns if the passed value is a true number.
 	 *
-	 *	@param	{string}	data
-	 *	@return	{object}
+	 *	@param	{mixed}	val
+	 *	@return	{boolean}
 	 */
-	captn.util.json.parse = function(data) {
-		if (JSON !== undefined) {
-			if (typeof JSON.parse === "function") {
-				return JSON.parse(data);
-			}
-		}
-		return eval("(function(){return " + data + ";})()");
+	captn.util.number.isNumber = function(val) {
+		return typeof value === 'number' && isFinite(value);
 	};
 });

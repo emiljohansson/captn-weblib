@@ -9,7 +9,7 @@
  *	@version	0.1.1
  *	@since		2013-08-10
  */
-(function() {
+captn.define(function() {
 
 	"use strict";
 
@@ -26,6 +26,8 @@
 	Event.EventType = {};
 	Event.EventType.LOAD = 'load';
 	Event.EventType.SUBMIT = 'submit';
+	Event.EventType.CLICK = 'click';
+	Event.EventType.CHANGE = 'change';
 
 	//-----------------------------------------------------------
 	//	Private methods
@@ -143,4 +145,4 @@
 	};
 
 	captn.event = Event;
-}());
+});

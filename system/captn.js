@@ -18,6 +18,16 @@ var captn = {
 	util: {},
 
 	//-----------------------------------------------------------
+	//	Private properties
+	//-----------------------------------------------------------
+
+	/**
+	 *	A list of objects, waitning to be initialized.
+	 *	@default {Array}
+	 */
+	_moduleList: [],
+
+	//-----------------------------------------------------------
 	//	Public static methods
 	//-----------------------------------------------------------
 
@@ -72,16 +82,27 @@ var captn = {
 	 *	Objects can add dependencies and if an object is not 
 	 *	defined, an error will be triggered.
 	 *
-	 *	@param	{Object}	obj
+	 *	@param	{Object}	module
 	 *	@return	{Object}
 	 */
-	require: function(obj) 
+	require: function(module) 
 	{
-		if (obj === undefined) {
+		if (module === undefined) {
 			console.trace();
 			throw "Object is not defined.";
 		}
-		return obj;
+		return module;
+	},
+
+	/**
+	 *	Defines an object and will be initilized once library is ready.
+	 *
+	 *	@param	{Object}	module
+	 *	@return	{Object}
+	 */
+	define: function(module) 
+	{
+		captn._moduleList.push(module);
 	},
 
 	/**
@@ -141,5 +162,22 @@ var captn = {
 			subscribers[i].callback.call(subscribers[i].context, args);
 		}
 		return this;
+	},
+
+	/**
+	 *	Initializes each dependency and once window has loaded, the callback
+	 *	method will be called.
+	 *
+	 *	@param	{Function}	callback
+	 *	@return	{undefined}
+	 */
+	ready: function(callback) 
+	{
+		var i = captn._moduleList.length;
+		while (i--) {
+			captn._moduleList[i]();
+		}
+		if (captn.event === undefined) throw "captn.event must be added to the document.";
+		captn.event.addListener(window, captn.event.EventType.LOAD, callback);
 	}
 };

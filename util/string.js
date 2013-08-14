@@ -7,19 +7,30 @@
  *	@version	0.1.1
  *	@since		2013-08-10
  */
-captn.util.string = {};
+captn.define(function() {
 
-/**
- *	Found at: http://www.xul.fr/ajax/responseHTML-attribute.php
- *	Returns the body content of an html file.
- *
- *	@param	{string} content
- *	@return	{string}
- */
-ds9.util.string.getBody = function(content)
-{ 
-	var x = content.indexOf("<body");
-		x = content.indexOf(">", x);    
-	var y = content.lastIndexOf("</body>"); 
-	return content.slice(x + 1, y);
-};
+	//-----------------------------------------------------------
+	//	Public namespace
+	//-----------------------------------------------------------
+
+	captn.util.string = {};
+
+	//-----------------------------------------------------------
+	//	Public static methods
+	//-----------------------------------------------------------
+
+	/**
+	 *	Found at: http://www.xul.fr/ajax/responseHTML-attribute.php
+	 *	Returns the body content of an html file.
+	 *
+	 *	@param	{string} content
+	 *	@return	{string}
+	 */
+	captn.util.string.getBody = function(content)
+	{ 
+		var x = content.indexOf("<body");
+			x = content.indexOf(">", x);    
+		var y = content.lastIndexOf("</body>"); 
+		return content.slice(x + 1, y);
+	};
+});

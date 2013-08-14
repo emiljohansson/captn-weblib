@@ -9,7 +9,7 @@
  *	@version	0.1.1
  *	@since		2013-08-10
  */
-(function() {
+captn.define(function() {
 
 	"use strict";
 	
@@ -223,13 +223,25 @@
 	 *	...
 	 *	@default {string}
 	 */
-	var GET = "GET";
+	var GET = "get";
 
 	/**
 	 *	...
 	 *	@default {string}
 	 */
-	var POST = "POST";
+	var POST = "post";
+
+	/**
+	 *	...
+	 *	@default {string}
+	 */
+	var GET_CONTENT_TYPE = "application/x-www-form-urlencoded; charset=UTF-8";
+
+	/**
+	 *	...
+	 *	@default {string}
+	 */
+	var POST_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
 	/**
 	 *	...
@@ -263,9 +275,10 @@
 	 */
 	Ajax.get = function(url, settings) {
 		settings = settings || {};
-		var handler = new HTTPHandler(url);
-			handler.contentType = settings.contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
-			handler.method = GET;
+		var handler				= new HTTPHandler(url);
+			handler.data		= settings.data || null;
+			handler.contentType	= GET_CONTENT_TYPE;
+			handler.method		= GET;
 			handler.init();
 		return handler;
 	};
@@ -277,9 +290,10 @@
 	 */
 	Ajax.post = function(url, settings) {
 		settings = settings || {};
-		var handler = new HTTPHandler(url);
-			handler.contentType = settings.contentType || 'application/x-www-form-urlencoded';
-			handler.method = POST;
+		var handler				= new HTTPHandler(url);
+			handler.data		= settings.data || null;
+			handler.contentType	= POST_CONTENT_TYPE;
+			handler.method		= POST;
 			handler.init();
 		return handler;
 	};
@@ -302,7 +316,6 @@
 			var data = serialize(form);
 			Ajax.post(url, {
 				data: data,
-				contentType: "json", 
 				caller: opt_args
 			})
 			.complete(submitCallback);
@@ -329,4 +342,4 @@
 	function serialize(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=form.elements.length-1;i>=0;i=i-1){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=form.elements[i].options.length-1;j>=0;j=j-1){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
 
 	captn.net.ajax = Ajax;
-}());
+});
