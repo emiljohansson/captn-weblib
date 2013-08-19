@@ -5,6 +5,7 @@
 	<script src="system/captn.js"></script>
 	<script src="event/event.js"></script>
 	<script src="net/ajax.js"></script>
+	<script src="util/binarysearchtree.js"></script>
 	<script src="util/json.js"></script>
 	<script>
 
@@ -45,14 +46,55 @@
 			captn.emit("TEST");
 		}
 
-		/*captn.event.addListener(window, captn.event.EventType.LOAD, function() {
-			
-		});*/
+		function testBinaryTree() {
+			var Item = function(v) {
+				this._value = v || Math.floor(Math.random() * 100);
+			};
+			Item.prototype.getValue = function() {
+				return this._value;
+			};
+			var arr  = [];
+			var tree = new captn.util.BinarySearchTree();
+			var size = 100;
+			for (var i = 0; i < size; i++) {
+				var item = new Item();
+				if (tree.add(item)) {
+					console.log("added:",item.getValue());
+					arr.push(item.getValue());
+				}
+			}
+			//console.assert(tree.size() === size);
+			console.log("---------------", tree.size(), tree.count());
+			var prev = -1;
+			tree.iterateForward(function(_item) {
+				//console.log(_item.getValue());
+				console.assert(_item.getValue() > prev);
+				prev = _item.getValue();
+			});
+			console.log("---------------", tree.size(), tree.count());
+			prev++;
+			tree.iterateBackward(function(_item) {
+				//console.log(_item.getValue());
+				console.assert(_item.getValue() < prev);
+				prev = _item.getValue();
+			});
+
+			for (var i = 0; i < arr.length ; i++) {
+				console.log("removing", arr[i]);
+				tree.remove(arr[i]);
+			};
+			console.log("---------------", tree.size(), tree.count());
+			tree.iterateForward(function(_item) {
+				console.log(_item.getValue());
+			});
+		}
 
 		function onLoad() {
 			console.log("loaded");
 			testAjax();
 			testSubscribers();
+			//for (var i = 0; i < 5; i++)	
+			testBinaryTree();
 		}
 
 		captn.ready(onLoad);

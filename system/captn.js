@@ -165,6 +165,46 @@ var captn = {
 	},
 
 	/**
+	 *	Returns if the passed value is a true number.
+	 *
+	 *	@param	{object}	value
+	 *	@return	{boolean}
+	 */
+	isNumber: function(value) {
+		return typeof value === 'number' && isFinite(value);
+	},
+
+	/**
+	 *	Returns if the passed value is a true function.
+	 *
+	 *	@param	{object}	value
+	 *	@return	{boolean}
+	 */
+	isFunction: function(value) {
+		return typeof value === 'function';
+	},
+
+	/**
+	 *	Returns if the passed value is a true string.
+	 *
+	 *	@param	{object}	value
+	 *	@return	{boolean}
+	 */
+	isString: function(value) {
+		return typeof value === 'string';
+	},
+
+	/**
+	 *	Returns if the passed value is null.
+	 *
+	 *	@param	{object}	value
+	 *	@return	{boolean}
+	 */
+	isNull: function(value) {
+		return value === null;
+	},
+
+	/**
 	 *	Initializes each dependency and once window has loaded, the callback
 	 *	method will be called.
 	 *
